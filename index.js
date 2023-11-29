@@ -63,7 +63,6 @@ app.get('/', async function (req, res) {
     let filteredExpenses = [];
     if (selectedCategory) {
         const categoryId = parseInt(selectedCategory, 10);
-        // console.log('bad boy ' +categoryId );
         filteredExpenses = await logic.expensesForCategory(categoryId);
     }
 
@@ -82,6 +81,7 @@ app.get('/', async function (req, res) {
 
 
 app.get('/viewAll', async function (req, res) {
+    // thsi function gets all the expenses made from the expense tables and display it onthe screen
     const viewExpenses = await logic.allExpenses()
     res.render('viewAllExpenses',{
         viewExpenses
@@ -96,6 +96,7 @@ app.post('/add-expense', async (req, res) => {
     const amount_used = req.body.amount;
 
     try {
+        // take all the info the user adds in from input and chckbox to add a new expense
         await logic.addExpense(description, categoryType, amount_used);
          req.flash('success', 'Expense added successfully.');
         // res.status(200).send('Expense added successfully.');
@@ -108,6 +109,7 @@ app.post('/add-expense', async (req, res) => {
 
 
 app.post('/delete-expense', async (req, res) => {
+    // this takes the expense id of the item the user want to delete
     const expenseId = req.body.expenseId;
 
     try {
@@ -121,7 +123,7 @@ app.post('/delete-expense', async (req, res) => {
     }
 });
 
-// Inside your route handler
+
 
 
 

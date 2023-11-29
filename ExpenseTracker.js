@@ -1,8 +1,6 @@
 export default function ExpenseTracker(db) {
 
-
-
-
+// this functiosn gets the id of th category so that it can be used when adding an expense
     async function getCategoryIdByType(categoryType) {
         try {
             //get the category id based on category type from db
@@ -41,6 +39,8 @@ export default function ExpenseTracker(db) {
             throw error;
         }
     }
+
+    // this functions add all the amounts to get the total
     async function updateTotal() {
         try {
             // Update the total column with the sum of amounts from all categories
@@ -53,7 +53,7 @@ export default function ExpenseTracker(db) {
         }
     }
 
-    // this is to diaply the total on screen
+    // this is to diaply the total on screen 
     async function getTotal() {
         try {
 
@@ -65,7 +65,8 @@ export default function ExpenseTracker(db) {
         }
     }
 
-
+// this function get all the expenses by retrieving expenses along with their details and the corresponding
+//  category type by joining the expense and category tables on the category_id and id fields, respectively.
     async function allExpenses() {
         try {
             const expenses = await db.any(`
@@ -81,6 +82,7 @@ export default function ExpenseTracker(db) {
         }
     }
 
+    // this fucntion is to delete each indivual expense by selescted the id for each assertion
     async function deleteExpense(expenseId) {
         try {
             // Perform the deletion in the database
@@ -93,7 +95,7 @@ export default function ExpenseTracker(db) {
         }
     }
     
-
+// this functions gets the total of each category by using sum to add all the expenses with the same category_id
     async function categoryTotals() {
         try {
             // Query to get category totals with category types
@@ -118,6 +120,8 @@ export default function ExpenseTracker(db) {
 
     }
 
+    // ths functions helps to filter each category and display 
+    // which expenses were made for that category when user selects it in dropdown
     async function expensesForCategory(categoryId) {
         try {
             
