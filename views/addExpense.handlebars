@@ -1,0 +1,133 @@
+{{!-- this page is for user to add an expense --}}
+
+<body>
+    <style>
+        .red {
+            color: green
+        }
+    </style>
+    <header>
+        <h1>Expense Tracker App</h1>
+
+    </header>
+    <h2>Add expense</h2>
+    <div>
+        {{#if success}}
+        <p class="red">{{ success }}</p>
+        {{/if}}
+        <div class="">
+
+
+            <form action="/add-expense" method="post">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" required>
+                <br>
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required>
+                <br>
+                <label for="category">Category:</label>
+                <input type="checkbox" id="daily" name="category_type" value="daily">
+                <label for="daily">Daily</label>
+
+                <input type="checkbox" id="weekly" name="category_type" value="weekly">
+                <label for="weekly">Weekly</label>
+
+                <input type="checkbox" id="weekday" name="category_type" value="weekday">
+                <label for="weekday">Weekday</label>
+
+                <input type="checkbox" id="weekend" name="category_type" value="weekend">
+                <label for="weekend">Weekend</label>
+
+                <input type="checkbox" id="once-off" name="category_type" value="once-off">
+                <label for="once-off">Once Off</label>
+
+                <input type="checkbox" id="monthly" name="category_type" value="monthly">
+                <label for="monthly">Monthly</label>
+                <br>
+                <button type="submit">Add Expense</button>
+            </form>
+        </div>
+
+        <h4>Total expense:</h4>R {{total}}<span></span>
+    </div>
+    <div>
+        <h4>Expense Summary per Category</h4>
+
+        {{#each expenses}}
+        {{!-- Display each expense --}}
+        <p>{{description}} - {{amount}}</p>
+        {{/each}}
+
+        {{!-- Display category totals --}}
+        {{#each totals}}
+        <p>Category {{@key}} Total: {{this}}</p>
+        {{/each}}
+
+        <h4>Filter expense by catergory</h4>
+
+        <div>
+            <label for="categorySelect">Choose a category:</label>
+            <select name="category" id="categorySelect" class="category-select">
+                <option value="" disabled selected>Select your option</option>
+                <option value="5" id="dailyOption">Daily</option>
+                <option value="1" id="weeklyOption">Weekly</option>
+                <option value="2" id="monthlyOption">Monthly</option>
+                <option value="3" id="weekdayOption">Weekday</option>
+                <option value="4" id="weekendOption">Weekend</option>
+                <option value="6" id="onceOffOption">Once Off</option>
+            </select>
+
+
+        </div>
+        <div id="expensesContainer">
+            <!-- Display filtered expenses if there are any -->
+            {{#if filteredExpenses.length}}
+            <h2>Filtered Expenses</h2>
+            {{#each filteredExpenses}}
+            <p>{{expense}} - {{amount}}</p>
+            {{/each}}
+            {{/if}}
+        </div>
+        <div>
+            <a href="/viewAll">View All Expences</a>
+
+        </div>
+        <script>
+            setTimeout(function () {
+                document.querySelector(".red").style.display = "none";
+            }, 4000)
+
+          
+
+        </script>
+        <script>
+    setTimeout(function () {
+        document.querySelector(".red").style.display = "none";
+    }, 4000)
+
+    // Assume you have a dropdown with the id 'categorySelect'
+    const categoryDropdown = document.getElementById('categorySelect');
+
+    // Add an event listener to the dropdown
+    categoryDropdown.addEventListener('change', function () {
+        const selectedCategory = categoryDropdown.value;
+
+        // Redirect to the same page with the selected category as a query parameter
+        window.location.href = `/?category=${selectedCategory}`;
+    });
+
+    // Assume you have a filter button with the id 'filterBtn'
+    const filterButton = document.getElementById('filterBtn');
+
+    // Add an event listener to the filter button
+    filterButton.addEventListener('click', function () {
+        const selectedCategory = categoryDropdown.value;
+
+        // Redirect to the same page with the selected category as a query parameter
+        window.location.href = `/?category=${selectedCategory}`;
+    });
+</script>
+
+
+
+</body>

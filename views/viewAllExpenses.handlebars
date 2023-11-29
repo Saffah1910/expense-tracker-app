@@ -1,0 +1,47 @@
+{{!-- on this page it will display all the expenses the user made --}}
+
+<body>
+
+    <h1>All Expenses</h1>
+
+    {{#if viewExpenses.length}}
+    <table>
+        <thead>
+            <tr>
+
+                <th>Description</th>
+                <th>Category Type</th>
+                <th>Amount</th>
+                <th>Action</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            {{#each viewExpenses}}
+            <tr>
+
+                <td>{{expense}}</td>
+                <td>{{category_type}}</td>
+                <td>R{{amount}}</td>
+
+                <td>
+                    <form action="/delete-expense" method="post">
+                        <input type="hidden" name="expenseId" value="{{id}}">
+                        <button type="submit" onclick="return confirm('Are you sure you want to delete?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+    <p>No expenses available.</p>
+    {{/if}}
+
+
+    <div>
+        <a href="/">Back home</a>
+
+    </div>
+</body>
