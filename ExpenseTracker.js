@@ -69,10 +69,11 @@ export default function ExpenseTracker(db) {
     async function allExpenses() {
         try {
             const expenses = await db.any(`
-                SELECT expense.id, expense.expense, expense.amount, category.category_type
+                SELECT expense.id, expense.expense, expense.amount, category.category_type, category_id
                 FROM expense
                 JOIN category ON expense.category_id = category.id
             `);
+            // console.log(expenses);
             return expenses;
         } catch (error) {
             console.error('Error fetching expenses:', error);
@@ -83,20 +84,15 @@ export default function ExpenseTracker(db) {
     async function deleteExpense(expenseId) {
         try {
             // Perform the deletion in the database
-            const result = await db.result('DELETE FROM expense WHERE id = $1', expenseId);
-
-            if (result.rowCount === 1) {
-                // Deletion successful
-                console.log('Expense deleted successfully.');
-            } else {
-                // No expense found with the given ID
-                console.log('Expense not found or already deleted.');
-            }
+            await db.none('DELETE FROM expense WHERE id = $1', expenseId);
+            
+            console.log('Expense deleted successfully.');
         } catch (error) {
             console.error('Error deleting expense:', error);
             throw error;
         }
     }
+    
 
     async function categoryTotals() {
         try {
@@ -124,12 +120,14 @@ export default function ExpenseTracker(db) {
 
     async function expensesForCategory(categoryId) {
         try {
+            
             // Query to get expenses for a specific category
             const expenses = await db.any(
-               'SELECT * FROM expense WHERE category_id = (SELECT id FROM category WHERE category_id = $1 LIMIT 1)',
+               'SELECT * FROM expense WHERE category_id = $1',
                [categoryId]
             );
     
+            // console.log(expenses);
             return expenses;
         } catch (error) {
             console.error('Error fetching expenses for category:', error);

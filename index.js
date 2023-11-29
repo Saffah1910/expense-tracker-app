@@ -63,6 +63,7 @@ app.get('/', async function (req, res) {
     let filteredExpenses = [];
     if (selectedCategory) {
         const categoryId = parseInt(selectedCategory, 10);
+        // console.log('bad boy ' +categoryId );
         filteredExpenses = await logic.expensesForCategory(categoryId);
     }
 
